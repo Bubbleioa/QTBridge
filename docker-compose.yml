@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  gocqhtpp:
+    container_name: go-cqhttp
+    environment: 
+      - TZ=Asiz/Singapore
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./gocqhttp:/usr/src/app:delegated
+    ports:
+      - 5700:5700
+    build:
+      context: ./go-cqhttp
+
+
+networks:
+  default:
+    name: QTBridge-default

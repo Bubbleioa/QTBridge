@@ -1,4 +1,5 @@
 import logging
+import os
 config = {
     'Telegram': {
         # tg使用的http代理（可选）
@@ -6,9 +7,9 @@ config = {
         'forward_list': [
             {
                 # tg bot的token
-                'token': '123456:abcdefgABCDEFG',
+                'token': os.getenv('TOKEN-1001666288867'),
                 # 需要转发的群id
-                'chat_id': '-1234567',
+                'chat_id': '-1001666288867',
                 # 不转发的id列表
                 'blacklist': [
                     '123456'
@@ -23,11 +24,6 @@ config = {
                 # qq群id
                 'group_id': 123456,
                 # go-cqhttp中，http的地址
-                # qq和irc互联时，irc的配置
-                'irc': {
-                    'nick': 'tencent_qq_bot',
-                    'password': 'password_qq',
-                },
                 # 不转发的qq号
                 'blacklist': [
                     '123456789'

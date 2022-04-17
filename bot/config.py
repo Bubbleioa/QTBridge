@@ -1,3 +1,4 @@
+import logging
 config = {
     'Telegram': {
         # tg使用的http代理（可选）
@@ -38,3 +39,5 @@ config = {
         ('-123456',123456), # tg 群和 QQ 群的配对
     ]
 }
+
+LOGGING_LEVEL=logging.INFO

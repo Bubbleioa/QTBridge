@@ -3,7 +3,7 @@ import os
 config = {
     'Telegram': {
         # tg使用的http代理（可选）
-        'http_proxy': 'http://127.0.0.1:8008/',
+        'http_proxy': 'http://127.0.0.1:7890/',
         'forward_list': [
             {
                 # tg bot的token
@@ -36,4 +36,4 @@ config = {
     ]
 }
 
-LOGGING_LEVEL=logging.INFO
+LOGGING_LEVEL=logging.INFO # logger

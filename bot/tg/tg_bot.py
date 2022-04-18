@@ -2,6 +2,7 @@ import os
 import json
 import asyncio
 import aiohttp
+import urllib
 # from tools.log import logger
 
 
@@ -56,6 +57,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                 if is_test:
                     await send_test_mock(final_msg)
     async def send_test_mock(msg):
+        msg = urllib.parse.quote(msg)
         session = aiohttp.ClientSession()
         url = f'https://api.telegram.org/bot{token}'
         res = await session.get(url + '/getMe', proxy=http_proxy)
@@ -80,6 +82,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
         res = res.strip()
         while True:
             message = await send_queue.get()
+            message = urllib.parse.quote(message)
             res = await session.get(
                 url + '/sendMessage?chat_id=' + chat_id + "&text=" + message,
                 proxy=http_proxy

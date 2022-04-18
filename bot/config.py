@@ -1,5 +1,7 @@
 import logging
 import os
+
+tg_token = os.getenv('TG_BOT_TOKEN')
 config = {
     'Telegram': {
         # tg使用的http代理（可选）
@@ -7,7 +9,7 @@ config = {
         'forward_list': [
             {
                 # tg bot的token
-                'token': os.getenv('TOKEN-1001666288867'),
+                'token': tg_token,
                 # 需要转发的群id
                 'chat_id': '-1001666288867',
                 # 不转发的id列表
@@ -31,8 +33,15 @@ config = {
             },
         ],
     },
-    'pair':[
-        ('-123456',123456), # tg 群和 QQ 群的配对
+    'bind':[
+        {
+            'tg_group':'-123456',
+            'qq_group':'12345',
+            'bgm_id':[
+                '1234',
+                'kriaeth'
+            ],
+        }
     ]
 }
 

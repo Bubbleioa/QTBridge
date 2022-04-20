@@ -1,6 +1,8 @@
+# go-cqhttp 默认配置文件
+
 account: # 账号相关
-  uin: 2320711942 # QQ账号
-  password: '' # 密码为空时使用扫码登录
+  uin: 2601254274 # QQ账号
+  password: '30551kulJK' # 密码为空时使用扫码登录
   encrypt: false  # 是否开启密码加密
   status: 0      # 在线状态 请参考 https://docs.go-cqhttp.org/guide/config.html#在线状态
   relogin: # 重连设置
@@ -11,6 +13,8 @@ account: # 账号相关
   # 是否使用服务器下发的新地址进行重连
   # 注意, 此设置可能导致在海外服务器上连接情况更差
   use-sso-address: true
+  # 是否允许发送临时会话消息
+  allow-temp-session: false
 
 heartbeat:
   # 心跳频率, 单位秒
@@ -47,6 +51,8 @@ output:
   log-aging: 15
   # 是否在每次启动时强制创建全新的文件储存日志. 为 false 的情况下将会在上次启动时创建的日志文件续写
   log-force-new: true
+  # 是否启用日志颜色
+  log-colorful: true
   # 是否启用 DEBUG
   debug: false # 开启调试模式
 
@@ -73,22 +79,46 @@ database: # 数据库相关设置
     # 关闭将无法使用 撤回 回复 get_msg 等上下文相关功能
     enable: true
 
+  # 媒体文件缓存， 删除此项则使用缓存文件(旧版行为)
+  cache:
+    image: data/image.db
+    video: data/video.db
+
 # 连接服务列表
 servers:
-  # HTTP 通信设置
-  - http:
-      # 服务端监听地址
-      host: 127.0.0.1
-      # 服务端监听端口
-      port: 5700
-      # 反向HTTP超时时间, 单位秒
-      # 最小值为5，小于5将会忽略本项设置
-      timeout: 5
+  # 添加方式，同一连接方式可添加多个，具体配置说明请查看文档
+  #- http: # http 通信
+  #- ws:   # 正向 Websocket
+  #- ws-reverse: # 反向 Websocket
+  #- pprof: #性能分析服务器
+
+  - http: # HTTP 通信设置
+      host: 127.0.0.1 # 服务端监听地址
+      port: 5700      # 服务端监听端口
+      timeout: 5      # 反向 HTTP 超时时间, 单位秒，<5 时将被忽略
+      long-polling:   # 长轮询拓展
+        enabled: false       # 是否开启
+        max-queue-size: 2000 # 消息队列大小，0 表示不限制队列大小，谨慎使用
       middlewares:
         <<: *default # 引用默认中间件
-      # 反向HTTP POST地址列表
-      post:
-      #- url: '' # 地址
-      #  secret: ''           # 密钥
-      #- url: http://127.0.0.1:5701 # 地址
-      #  secret: ''          # 密钥
+      post:           # 反向HTTP POST地址列表
+    #   - url: ''                # 地址
+    #    secret: ''             # 密钥
+	  #  max-retries: 3         # 最大重试，0 时禁用
+    #    retries-interval: 1500 # 重试时间，单位毫秒，0 时立即
+      - url: http://127.0.0.1:5701/ # 地址
+      #  secret: ''                  # 密钥
+	  #  max-retries: 10             # 最大重试，0 时禁用
+      #  retries-interval: 1000      # 重试时间，单位毫秒，0 时立即
+  # - ws-reverse:
+  #     # 反向WS Universal 地址
+  #     # 注意 设置了此项地址后下面两项将会被忽略
+  #     universal: ws://127.0.0.1:5700/ws
+  #     # 反向WS API 地址
+  #     api: ws://your_websocket_api.server
+  #     # 反向WS Event 地址
+  #     event: ws://your_websocket_event.server
+  #     # 重连间隔 单位毫秒
+  #     reconnect-interval: 3000
+  #     middlewares:
+  #       <<: *default # 引用默认中间件

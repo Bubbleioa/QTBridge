@@ -44,6 +44,8 @@ def create_qq_bridge(loop):
     loop.create_task(get_msg())
     loop.create_task(send_msg())
 
+    return qq_receive_queue, qq_send_queue
+
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     create_qq_bridge(loop)

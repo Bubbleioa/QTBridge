@@ -22,6 +22,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
         print(res)
         last_id = None
         while True:
+            await asyncio.sleep(0.3)
             if len(res['result']) > 0:
                 last_id = res['result'][-1]['update_id'] + 1
             api_url = f'https://api.telegram.org/bot{token}/getUpdates?timeout=6'
@@ -89,6 +90,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
             )
             res = await res.read()
             res = json.loads(res.decode())
+            await asyncio.sleep(0.3)
             # logger.info(res)
 
     loop.create_task(get_msg())

@@ -36,14 +36,14 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                 if 'message' not in msg:
                     continue
                 msg = msg['message']
+                if msg['text'][0]=='/':
+                    continue
                 if str(msg['from']['id']) in blacklist:
                     continue
                 if msg.get('chat') and msg['chat'].get('id') \
                     and msg['chat']['id'] != int(chat_id):
                     continue
-                if 'username' in msg['from']:
-                    author = msg['from']['username']
-                elif 'last_name' in msg['from']:
+                if 'last_name' in msg['from']:
                     author = f"{msg['from']['first_name']} {msg['from']['last_name']}"
                 else:
                     author = msg['from']['first_name']

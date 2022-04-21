@@ -24,7 +24,7 @@ config = {
         'forward_list': [
             {
                 # qq群id
-                'group_id': 123456,
+                'group_id': 747324697,
                 # go-cqhttp中，http的地址
                 # 不转发的qq号
                 'blacklist': [
@@ -36,7 +36,7 @@ config = {
     'bind':[
         {
             'tg_group':'-123456',
-            'qq_group':'12345',
+            'qq_group':'747324697',
             'bgm_id':[
                 '1234',
                 'kriaeth'

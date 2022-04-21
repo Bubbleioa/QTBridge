@@ -6,7 +6,7 @@ import json
 def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     qq_receive_queue = asyncio.Queue()    
     qq_send_queue = asyncio.Queue()
-
+    print(blacklist)
     async def get_msg():
         async with aiohttp.ClientSession() as session:
             
@@ -28,7 +28,7 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                     if last_msg['message_id'] != last_msg_id:
                         last_msg_id = last_msg['message_id']
                         qqid = last_msg['sender']['user_id']
-
+                        print(qqid)
                         # blacklist
                         if qqid in blacklist:
                             continue

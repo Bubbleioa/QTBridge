@@ -10,7 +10,7 @@ def create_bridge(group,loop):
     tg_rev_queue, tg_send_queue = \
     create_telegram_bridge(config['Telegram']['token'],group['tg_group'],group['tg_blacklist'],config['Telegram']['http_proxy'],loop)
     qq_rev_queue, qq_send_queue = \
-    create_qq_bridge(config['QQ']['base_uri'],group['qq_group'],loop)
+    create_qq_bridge(config['QQ']['base_uri'],group['qq_group'],loop,group['qq_blacklist'])
     bgm_rev_queue = asyncio.Queue()
     for bgm_id in group['bgm_id']:
         create_bgm_rss(bgm_id,bgm_rev_queue,10,loop)

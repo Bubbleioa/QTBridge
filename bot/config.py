@@ -13,17 +13,25 @@ config = {
     },
     'bind':[
         {
-            'tg_group':'-1001666288867',
+            'tg_group':'-1001731004217',
             'qq_group':'780703469',
             'bgm_id':[
                 '428864',
-                'kriaeth'
+                'kriaeth',
+                '488709',
+                'fffeiya',
+                '341379',
+                '483226',
+                'ttsuxx',
+                'vishford',
+                'gfzum',
+                'limu_lingmeng'
             ],
             'tg_blacklist': [
                 '123456789'
             ],
             'qq_blacklist': [
-                '123456789'
+                2320711942
             ],
         }
     ]

@@ -36,7 +36,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                 if 'message' not in msg:
                     continue
                 msg = msg['message']
-                if msg['text'][0]=='/':
+                if 'text' in msg and msg['text'][0]=='/':
                     continue
                 if str(msg['from']['id']) in blacklist:
                     continue

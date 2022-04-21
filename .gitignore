@@ -5,7 +5,7 @@ __pycache__/
 .vscode
 # C extensions
 *.so
-
+session.token
 # Distribution / packaging
 .Python
 build/

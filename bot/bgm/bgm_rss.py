@@ -17,7 +17,6 @@ def create_bgm_rss(user_id,receive_queue,interval=10,loop=None):
         res = await res.text()
         res = feedparser.parse(res)
         content = res.entries
-        print(content)
         while True:
             await asyncio.sleep(interval)
             res = await session.get(rss_url)

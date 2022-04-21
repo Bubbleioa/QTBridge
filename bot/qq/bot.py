@@ -3,7 +3,7 @@ import aiohttp
 import json
 
 
-def create_qq_bridge(base_uri,group_id,loop):
+def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     qq_receive_queue = asyncio.Queue()    
     qq_send_queue = asyncio.Queue()
 
@@ -23,13 +23,26 @@ def create_qq_bridge(base_uri,group_id,loop):
                     text = await response.text()
                     messages = json.loads(text)['data']['messages']
                     last_msg = messages[-1]
-                    
+
+                    # if receive new meesage               
                     if last_msg['message_id'] != last_msg_id:
-                        msg = last_msg['message']
-                        author = last_msg['sender']['nickname']
-                        # print(msg) log
-                        await qq_receive_queue.put(f"{author}: {msg}")
                         last_msg_id = last_msg['message_id']
+                        qqid = last_msg['sender']['user_id']
+
+                        # blacklist
+                        if qqid in blacklist:
+                            continue
+
+                        # get name in group
+                        async with session.get(f'{base_uri}'
+                        + f'get_group_member_info?group_id={group_id}&user_id={qqid}') as res:
+                            data = json.loads(await res.text())['data']
+                            card_name = data['card']
+
+                            msg = last_msg['message']
+                            await qq_receive_queue.put(f"{card_name}: {msg}")
+
+                        # print(msg) log
                     
                     await asyncio.sleep(0.3)
 
@@ -48,5 +61,5 @@ def create_qq_bridge(base_uri,group_id,loop):
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    create_qq_bridge('http://127.0.0.1:5700','747324697',loop)
+    create_qq_bridge('http://127.0.0.1:5700/','747324697',loop)
     loop.run_forever()

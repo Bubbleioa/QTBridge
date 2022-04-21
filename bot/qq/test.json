@@ -28,4 +28,31 @@
              "sub_type":"normal","time":1650523203,"user_id":2874994274
              },
              
-             {"anonymous":null,"font":0,"group_id":747324697,"message":"?","message_id":-877471616,"message_seq":1741,"message_type":"group","post_type":"message","raw_message":"?","self_id":2601254274,"sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},"sub_type":"normal","time":1650523210,"user_id":2874994274},{"anonymous":null,"font":0,"group_id":747324697,"message":"...","message_id":1388022074,"message_seq":1742,"message_type":"group","post_type":"message","raw_message":"...","self_id":2601254274,"sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},"sub_type":"normal","time":1650523221,"user_id":2874994274}]},"retcode":0,"status":"ok"}
+             {"anonymous":null,"font":0,"group_id":747324697,"message":"?","message_id":-877471616,"message_seq":1741,"message_type":"group","post_type":"message","raw_message":"?","self_id":2601254274,"sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},"sub_type":"normal","time":1650523210,"user_id":2874994274},{"anonymous":null,"font":0,"group_id":747324697,"message":"...","message_id":1388022074,"message_seq":1742,"message_type":"group","post_type":"message","raw_message":"...","self_id":2601254274,"sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},"sub_type":"normal","time":1650523221,"user_id":2874994274}
+        ]
+    },
+ "retcode":0,
+ "status":"ok"
+},
+
+{'data': 
+    {
+        'age': 0, 
+        'area': '',
+        'card': '', 
+        'card_changeable': False, 
+        'group_id': 747324697, 
+        'join_time': 1650446038, 
+        'last_sent_time': 1650528880, 
+        'level': '1', 
+        'nickname': '一般网友', 
+        'role': 'owner', 
+        'sex': 'unknown', 
+        'shut_up_timestamp': 0,
+         'title': '', 
+         'title_expire_time': 0, 
+         'unfriendly': False, 
+         'user_id': 2874994274
+    }, 
+    'retcode': 0, 
+    'status': 'ok'}

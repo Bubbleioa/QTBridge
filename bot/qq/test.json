@@ -1,0 +1,31 @@
+{"data":
+    {"messages":
+        [
+            {"anonymous":null,
+             "font":0,
+             "group_id":747324697,
+             "message":"tt",
+             "message_id":-1977039243,
+             "message_seq":1739,
+             "message_type":"group",
+             "post_type":"message",
+             "raw_message":"tt",
+             "self_id":2601254274,
+             "sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},
+             "sub_type":"normal","time":1650523161,"user_id":2874994274
+            },
+            {"anonymous":null,
+             "font":0,
+             "group_id":747324697,
+             "message":"123",
+             "message_id":-1128929258,
+             "message_seq":1740,
+             "message_type":"group",
+             "post_type":"message",
+             "raw_message":"123",
+             "self_id":2601254274,
+             "sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},
+             "sub_type":"normal","time":1650523203,"user_id":2874994274
+             },
+             
+             {"anonymous":null,"font":0,"group_id":747324697,"message":"?","message_id":-877471616,"message_seq":1741,"message_type":"group","post_type":"message","raw_message":"?","self_id":2601254274,"sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},"sub_type":"normal","time":1650523210,"user_id":2874994274},{"anonymous":null,"font":0,"group_id":747324697,"message":"...","message_id":1388022074,"message_seq":1742,"message_type":"group","post_type":"message","raw_message":"...","self_id":2601254274,"sender":{"age":0,"area":"","card":"","level":"","nickname":"一般网友","role":"owner","sex":"unknown","title":"","user_id":2874994274},"sub_type":"normal","time":1650523221,"user_id":2874994274}]},"retcode":0,"status":"ok"}

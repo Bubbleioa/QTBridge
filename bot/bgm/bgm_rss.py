@@ -5,12 +5,11 @@ import feedparser
 from tools.log import logger
 
 
-def create_bgm_rss(user_id,interval=10,loop=None):
+def create_bgm_rss(user_id,receive_queue,interval=10,loop=None):
     '''create a bgm rss tracer'''
     if not loop:
         loop = asyncio.get_event_loop()
     rss_url=f'https://bgm.tv/feed/user/{user_id}/timeline'
-    receive_queue = asyncio.Queue()
 
     async def update_rss():
         session = aiohttp.ClientSession()
@@ -35,7 +34,6 @@ def create_bgm_rss(user_id,interval=10,loop=None):
             content = res.entries
 
     loop.create_task(update_rss())
-    return receive_queue
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

@@ -1,18 +1,19 @@
-## TODO
+### 实现
 
-没有打算按照 onebot11 文档中提到的 通过 `.handle-quick_opeartion` API伪造快速操作，而是在接收到上报后重新调用 API 实现转发。
+- 接收信息：使用了不断对群聊记录进行轮询的方式，将最新的一条消息记录放入异步队列中。
+- 发送信息：从异步队列中获取信息并转发消息
 
-`event.message.format` where to config?
+### todo
 
-## 模块介绍
+- 日志记录
+- 图片、表情、音视频、聊天记录、语音的转发
 
-借鉴了别人写法，待修改（等我把逻辑理清楚了再往异步和框架里套55）
+### 可能存在的问题
 
-- `ini` : initialize module
-- `receive` : receive message and wrap into json file
-- `api` 
-    - `send_msg` : receive response dictionary and send corresponding message
-    - `send_item` : wrap special item into message form
-- `bot` 
-    - wrap received message (need wrap form)
-    - forward wrapped message into qq group
+- go-cqhttp 官方文档中调用 `get_group_msg_history?group_id=...` 的说明是：
+
+> 不提供起始序号将默认获取最新的消息
+ 
+在实际使用中，获得到的信息似乎包括从第一条到最后一条未读消息。不清楚可以获得的消息记录的最长长度有多少。
+
+- QQ登录会话的token不知道能保留多久，过期了需要重新扫二维码。另外也有风控的可能性。

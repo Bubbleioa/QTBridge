@@ -1,5 +1,7 @@
 """main.py"""
+import os,time
 import asyncio
+import requests
 from config import config
 from qq.bot import create_qq_bridge
 from tg.tg_bot import create_telegram_bridge
@@ -34,6 +36,9 @@ def create_bridge(group,loop):
 
 def main():
     """A dummy docstring."""
+    if os.getenv('isdocker'):
+        time.sleep(22)
+
     loop = asyncio.get_event_loop()
     for group in config['bind']:
         create_bridge(group,loop)

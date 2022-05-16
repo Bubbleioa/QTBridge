@@ -5,11 +5,11 @@ tg_token = os.getenv('TG_BOT_TOKEN')
 config = {
     'Telegram': {
         # tg使用的http代理（可选）
-        'http_proxy': 'http://172.21.128.1:7890/',
+        'http_proxy': 'http://host.docker.internal:7890',
         'token': tg_token,
     },
     'QQ': {
-        'base_uri': 'http://127.0.0.1:5700/',
+        'base_uri': 'http://gocqhttp:5700/',
     },
     'bind':[
         {

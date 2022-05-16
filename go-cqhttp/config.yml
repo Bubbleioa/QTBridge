@@ -1,7 +1,7 @@
 # go-cqhttp 默认配置文件
 
 account: # 账号相关
-  uin: 2601254274 # QQ账号
+  uin: 2320711942 # QQ账号
   password: '' # 密码为空时使用扫码登录
   encrypt: false  # 是否开启密码加密
   status: 0      # 在线状态 请参考 https://docs.go-cqhttp.org/guide/config.html#在线状态
@@ -93,7 +93,7 @@ servers:
   #- pprof: #性能分析服务器
 
   - http: # HTTP 通信设置
-      host: 127.0.0.1 # 服务端监听地址
+      host: 0.0.0.0 # 服务端监听地址
       port: 5700      # 服务端监听端口
       timeout: 5      # 反向 HTTP 超时时间, 单位秒，<5 时将被忽略
       long-polling:   # 长轮询拓展

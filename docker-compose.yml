@@ -1,18 +1,35 @@
 version: '3'
 
 services:
-  gocqhtpp:
-    container_name: go-cqhttp
+  gocqhttp:
+    container_name: gocqhttp
     environment: 
       - TZ=Asiz/Singapore
     tty: true
     stdin_open: true
-    volumes:
-      - ./gocqhttp:/usr/src/app:delegated
     ports:
       - 5700:5700
+    restart: always
+    volumes:
+      - ./go-cqhttp:/usr/src/app:delegated
     build:
       context: ./go-cqhttp
+  
+  qtbridge:
+    container_name: qtbridge
+    environment:
+      - TZ=Asiz/Singapore
+      - isdocker=1
+      - TG_BOT_TOKEN=add_your_token_here
+    tty: true
+    stdin_open: true
+    build:
+      context: ./bot
+    depends_on:
+      - gocqhttp
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 
 
 networks:

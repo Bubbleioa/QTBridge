@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
   gocqhttp:
@@ -10,8 +10,6 @@ services:
     ports:
       - 5700:5700
     restart: always
-    volumes:
-      - ./go-cqhttp:/usr/src/app:delegated
     build:
       context: ./go-cqhttp
   

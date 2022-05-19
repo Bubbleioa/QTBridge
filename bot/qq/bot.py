@@ -2,6 +2,8 @@ import asyncio
 import aiohttp
 import json
 
+from tools.log import logger
+from tools.get_meta import get_meta
 
 def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     qq_receive_queue = asyncio.Queue()    
@@ -21,14 +23,19 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                 async with session.get(f'{base_uri}'
                 + f'get_group_msg_history?group_id={group_id}') as response:
                     text = await response.text()
-                    messages = json.loads(text)['data']['messages']
+                    messages = {}
+                    try:
+                        messages = json.loads(text)['data']['messages']
+                    except:
+                        logger.warn("NoneType! Retrying... text is %s",text)
+                        await asyncio.sleep(1)
+                        continue
                     last_msg = messages[-1]
 
                     # if receive new meesage               
                     if last_msg['message_id'] != last_msg_id:
                         last_msg_id = last_msg['message_id']
                         qqid = last_msg['sender']['user_id']
-                        print(qqid)
                         # blacklist
                         if qqid in blacklist:
                             continue
@@ -40,6 +47,9 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                             card_name = data['card']
 
                             msg = last_msg['message']
+                            res = await get_meta(msg)
+                            if res!=None:
+                                await qq_send_queue.put(res[3][0])
                             await qq_receive_queue.put(f"{card_name}: {msg}")
 
                         # print(msg) log
@@ -49,10 +59,13 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     async def send_msg():
         async with aiohttp.ClientSession() as session:
             while True:
-                    message = await qq_send_queue.get()
-                    async with session.get(f'{base_uri}'
-                    + f'send_group_msg?group_id={group_id}&message={message}') as response:
-                        pass #log
+                message = await qq_send_queue.get()
+                res = await get_meta(message)
+                if res != None:
+                    message += '\r\n' + res[0] + '\r\n' + res[1] + '\r\n' + f'[CQ:image,file={res[2]}]'
+                async with session.get(f'{base_uri}'
+                + f'send_group_msg?group_id={group_id}&message={message}') as response:
+                    pass #log
 
     loop.create_task(get_msg())
     loop.create_task(send_msg())

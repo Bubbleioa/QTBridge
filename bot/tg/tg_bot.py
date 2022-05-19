@@ -3,7 +3,7 @@ import json
 import asyncio
 import aiohttp
 import urllib
-# from tools.log import logger
+from tools.log import logger
 
 
 def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=None,is_test=False):
@@ -16,21 +16,25 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
 
     async def get_msg():
         session = aiohttp.ClientSession()
+        logger.info("try to get %s",f'https://api.telegram.org/bot{token}/getUpdates?timeout=6')
         res = await session.get(f'https://api.telegram.org/bot{token}/getUpdates?timeout=6',proxy=http_proxy)
         res = await res.read()
         res = json.loads(res.decode())
-        print(res)
         last_id = None
         while True:
-            await asyncio.sleep(0.3)
+            await asyncio.sleep(0.5)
             if len(res['result']) > 0:
                 last_id = res['result'][-1]['update_id'] + 1
             api_url = f'https://api.telegram.org/bot{token}/getUpdates?timeout=6'
             if last_id:
                 api_url+=f'&offset={last_id}'
-            res = await session.get(api_url,proxy=http_proxy)
+            try:
+                res = await session.get(api_url,proxy=http_proxy)
+            except:
+                logger.warn("Network has something wrong, retrying...")
+                await asyncio.sleep(1)
+                continue
             res = await res.read()
-            print(res)
             res = json.loads(res.decode())
             for msg in res['result']:
                 if 'message' not in msg:

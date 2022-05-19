@@ -1,4 +1,5 @@
 """main.py"""
+import os,time
 import asyncio
 from config import config
 from qq.bot import create_qq_bridge
@@ -34,6 +35,11 @@ def create_bridge(group,loop):
 
 def main():
     """A dummy docstring."""
+
+    # start after go-cqhttp, may use better method.
+    if os.getenv('isdocker'):
+        time.sleep(22)
+
     loop = asyncio.get_event_loop()
     for group in config['bind']:
         create_bridge(group,loop)

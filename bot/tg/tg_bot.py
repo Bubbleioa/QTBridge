@@ -1,7 +1,6 @@
 import os
 import json
 import asyncio
-from time import sleep
 import aiohttp
 import urllib
 from tools.log import logger

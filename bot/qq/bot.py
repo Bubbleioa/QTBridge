@@ -2,6 +2,8 @@ import asyncio
 import aiohttp
 import json
 
+from tools.log import logger
+
 
 def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     qq_receive_queue = asyncio.Queue()    
@@ -21,7 +23,13 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                 async with session.get(f'{base_uri}'
                 + f'get_group_msg_history?group_id={group_id}') as response:
                     text = await response.text()
-                    messages = json.loads(text)['data']['messages']
+                    messages = {}
+                    try:
+                        messages = json.loads(text)['data']['messages']
+                    except:
+                        logger.warn("NoneType! Retrying... text is %s",text)
+                        asyncio.sleep(1)
+                        continue
                     last_msg = messages[-1]
 
                     # if receive new meesage               

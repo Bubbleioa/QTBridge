@@ -1,7 +1,6 @@
 """main.py"""
 import os,time
 import asyncio
-import requests
 from config import config
 from qq.bot import create_qq_bridge
 from tg.tg_bot import create_telegram_bridge

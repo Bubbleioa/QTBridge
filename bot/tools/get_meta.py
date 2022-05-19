@@ -1,6 +1,6 @@
 import re
 from bs4 import BeautifulSoup
-from log import logger
+from .log import logger
 import asyncio,aiohttp
 pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')    # 匹配url模式
 

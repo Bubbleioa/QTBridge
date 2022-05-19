@@ -57,7 +57,7 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
         async with aiohttp.ClientSession() as session:
             while True:
                     message = await qq_send_queue.get()
-                    res = get_meta(message)
+                    res = await get_meta(message)
                     if res != None:
                         message += '\n' + res[0] + '\n' + res[1] + '\n' + f'[CQ:image,file={res[2]}]'
                     async with session.get(f'{base_uri}'

@@ -36,6 +36,8 @@ def create_bridge(group,loop):
 
 def main():
     """A dummy docstring."""
+
+    # start after go-cqhttp, may use better method.
     if os.getenv('isdocker'):
         time.sleep(22)
 

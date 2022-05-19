@@ -28,7 +28,6 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                     if last_msg['message_id'] != last_msg_id:
                         last_msg_id = last_msg['message_id']
                         qqid = last_msg['sender']['user_id']
-                        print(qqid)
                         # blacklist
                         if qqid in blacklist:
                             continue

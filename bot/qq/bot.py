@@ -47,6 +47,9 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                             card_name = data['card']
 
                             msg = last_msg['message']
+                            res = await get_meta(msg)
+                            if res!=None:
+                                await qq_send_queue.put(res[3][0])
                             await qq_receive_queue.put(f"{card_name}: {msg}")
 
                         # print(msg) log
@@ -56,13 +59,13 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     async def send_msg():
         async with aiohttp.ClientSession() as session:
             while True:
-                    message = await qq_send_queue.get()
-                    res = await get_meta(message)
-                    if res != None:
-                        message += '\n' + res[0] + '\n' + res[1] + '\n' + f'[CQ:image,file={res[2]}]'
-                    async with session.get(f'{base_uri}'
-                    + f'send_group_msg?group_id={group_id}&message={message}') as response:
-                        pass #log
+                message = await qq_send_queue.get()
+                res = await get_meta(message)
+                if res != None:
+                    message += '\r\n' + res[0] + '\r\n' + res[1] + '\r\n' + f'[CQ:image,file={res[2]}]'
+                async with session.get(f'{base_uri}'
+                + f'send_group_msg?group_id={group_id}&message={message}') as response:
+                    pass #log
 
     loop.create_task(get_msg())
     loop.create_task(send_msg())

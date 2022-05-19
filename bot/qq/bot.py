@@ -3,7 +3,7 @@ import aiohttp
 import json
 
 from tools.log import logger
-
+from tools.get_meta import get_meta
 
 def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
     qq_receive_queue = asyncio.Queue()    
@@ -28,7 +28,7 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
                         messages = json.loads(text)['data']['messages']
                     except:
                         logger.warn("NoneType! Retrying... text is %s",text)
-                        asyncio.sleep(1)
+                        await asyncio.sleep(1)
                         continue
                     last_msg = messages[-1]
 
@@ -57,6 +57,9 @@ def create_qq_bridge(base_uri, group_id, loop, blacklist=[]):
         async with aiohttp.ClientSession() as session:
             while True:
                     message = await qq_send_queue.get()
+                    res = get_meta(message)
+                    if res != None:
+                        message += '\n' + res[0] + '\n' + res[1] + '\n' + f'[CQ:image,file={res[2]}]'
                     async with session.get(f'{base_uri}'
                     + f'send_group_msg?group_id={group_id}&message={message}') as response:
                         pass #log

@@ -32,7 +32,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                 res = await session.get(api_url,proxy=http_proxy)
             except:
                 logger.warn("Network has something wrong, retrying...")
-                asyncio.sleep(1)
+                await asyncio.sleep(1)
                 continue
             res = await res.read()
             res = json.loads(res.decode())

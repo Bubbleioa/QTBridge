@@ -21,11 +21,13 @@ async def get_meta(text :str) -> list|None:
                 image = soup.find_all(property='og:image')
                 if len(description)==0 or len(image)==0:
                     return None
-                if image[0]['content'][0:4] != 'http':
+                if image[0]['content'][0:4] != 'http' and image[0]['content'][0:2] != '//':
                     base_url = re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', text)
                     image[0]['content'] = base_url[0] + image[0]['content']
+                session.close()
                 return [title.text,description[0]['content'],image[0]['content'],urls]
             except:
+                session.close()
                 logger.warn("faild resolve %s",text)
                 return None     
     else:

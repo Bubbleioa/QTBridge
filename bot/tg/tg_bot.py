@@ -70,7 +70,8 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                             final_msg += f'[CQ:image,file={b64_str}]'
                             if 'caption' in msg:
                                 final_msg += msg['caption']
-                        except:
+                        except Exception as e:
+                            logger.warn(e)
                             logger.warn("Get image failed")
                             continue
                     else :

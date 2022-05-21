@@ -1,6 +1,8 @@
 import os
 import json
 import asyncio
+import base64
+from io import BytesIO
 import aiohttp
 import urllib
 from tools.log import logger
@@ -53,9 +55,28 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                     author = msg['from']['first_name']
                 # logger.info(f"receive message from telegram group:{chat_id}")
                 # logger.info(json.dumps(msg, indent='  '))
+                final_msg = f"{author}: "
                 if 'text' not in msg:
-                    continue
-                final_msg = f"{author}: {msg['text']}"
+                    if 'photo' in msg:
+                        try:
+                            if 'caption' in msg and (msg['caption'][0] == '!' or msg['caption'][0] == '！'):
+                                continue
+                            photo = msg['photo'][0]
+                            rep = await session.get(f'https://api.telegram.org/bot{token}/getFile?file_id={photo["file_id"]}',proxy=http_proxy)
+                            rep = await rep.read()
+                            rep = json.loads(rep.decode())
+                            rep = await session.get(f'https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}',proxy=http_proxy)
+                            b64_str = base64.b64encode(BytesIO(rep.content).getvalue())
+                            final_msg += f'[CQ:image,file={b64_str}]'
+                            if 'caption' in msg:
+                                final_msg += msg['caption']
+                        except:
+                            logger.warn("Get image failed")
+                            continue
+                    else :
+                        continue
+                if 'text' in msg:
+                    final_msg += f"{msg['text']}"
                 await receive_queue.put(final_msg)
                 if len(res['result']) > 0:
                     last_id = res['result'][-1]['update_id'] + 1

@@ -81,17 +81,31 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
     async def send_msg():
         session = aiohttp.ClientSession()
         url = f'https://api.telegram.org/bot{token}'
-        res = await session.get(url + '/getMe', proxy=http_proxy)
+        while True:
+            try:
+                res = await session.get(url + '/getMe', proxy=http_proxy)
+            except:
+                logger.warn("Network has something wrong, retrying...")
+                await asyncio.sleep(1)
+                continue
+            break
         res = await res.read()
         res = res.decode()  # type: str
         res = res.strip()
         while True:
             message = await send_queue.get()
             message = urllib.parse.quote(message)
-            res = await session.get(
-                url + '/sendMessage?chat_id=' + chat_id + "&text=" + message,
-                proxy=http_proxy
-            )
+            while True:
+                try:
+                    res = await session.get(
+                        url + '/sendMessage?chat_id=' + chat_id + "&text=" + message,
+                        proxy=http_proxy
+                    )
+                except:
+                    logger.warn("Network has something wrong, retrying...")
+                    await asyncio.sleep(1)
+                    continue
+                break
             res = await res.read()
             res = json.loads(res.decode())
             await asyncio.sleep(0.3)

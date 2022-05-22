@@ -12,9 +12,8 @@ services:
     restart: always
     build:
       context: ./go-cqhttp
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-  
+    volumes:
+      - /tmp:/tmp
   qtbridge:
     container_name: qtbridge
     environment:
@@ -27,6 +26,8 @@ services:
       context: ./bot
     depends_on:
       - gocqhttp
+    volumes:
+      - /tmp:/tmp
     extra_hosts:
       - "host.docker.internal:host-gateway"
 

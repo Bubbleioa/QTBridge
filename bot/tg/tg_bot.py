@@ -65,7 +65,8 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                             rep = await rep.read()
                             rep = json.loads(rep.decode())
                             rep = await session.get(f'https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}',proxy=http_proxy)
-                            b64_str = base64.b64encode(rep.content.read())
+                            img = await rep.content.read()
+                            b64_str = base64.b64encode(img)
                             final_msg += f'[CQ:image,file={b64_str}]'
                             if 'caption' in msg:
                                 final_msg += msg['caption']

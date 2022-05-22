@@ -1,7 +1,6 @@
 import os
 import json
 import asyncio
-import base64
 import aiohttp
 import urllib
 from tools.log import logger
@@ -66,9 +65,10 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                             rep = json.loads(rep.decode())
                             rep = await session.get(f'https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}',proxy=http_proxy)
                             img = await rep.content.read()
-                            b64_str = 'base64://'+base64.b64encode(img).decode('UTF-8')
-                            logger.debug("img base64: %s",b64_str)
-                            final_msg += f'[CQ:image,file={b64_str}]'
+                            img_path = os.path.join('/tmp',photo["file_id"])
+                            with open(img_path,'w') as f:
+                                f.write(img)
+                            final_msg += f'[CQ:image,file=file://{img_path}]'
                             if 'caption' in msg:
                                 final_msg += msg['caption']
                         except Exception as e:

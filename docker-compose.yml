@@ -12,6 +12,8 @@ services:
     restart: always
     build:
       context: ./go-cqhttp
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   
   qtbridge:
     container_name: qtbridge

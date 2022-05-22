@@ -34,7 +34,7 @@ message:
   # 是否将url分片发送
   fix-url: false
   # 下载图片等请求网络代理
-  proxy-rewrite: ''
+  proxy-rewrite: 'http://host.docker.internal:7890'
   # 是否上报自身消息
   report-self-message: false
   # 移除服务端的Reply附带的At

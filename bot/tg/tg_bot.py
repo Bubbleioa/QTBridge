@@ -63,8 +63,12 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                             rep = await session.get(f'https://api.telegram.org/bot{token}/getFile?file_id={photo["file_id"]}',proxy=http_proxy)
                             rep = await rep.read()
                             rep = json.loads(rep.decode())
-                            # rep = await session.get(f'https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}',proxy=http_proxy)
-                            final_msg += f'[CQ:image,file=https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}]'
+                            rep = await session.get(f'https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}',proxy=http_proxy)
+                            img = await rep.content.read()
+                            img_path = os.path.join('/tmp',photo["file_id"])
+                            with open(img_path,'wb') as f:
+                                f.write(img)
+                            final_msg += f'[CQ:image,file=file://{img_path}]'
                             if 'caption' in msg:
                                 final_msg += msg['caption']
                         except Exception as e:

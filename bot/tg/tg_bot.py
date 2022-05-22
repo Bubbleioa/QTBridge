@@ -55,11 +55,16 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                 # logger.info(json.dumps(msg, indent='  '))
                 final_msg = f"{author}: "
                 if 'text' not in msg:
-                    if 'photo' in msg:
+                    if 'photo' or 'sticker' in msg:
                         try:
+                            
                             if 'caption' in msg and (msg['caption'][0] == '!' or msg['caption'][0] == '！'):
                                 continue
-                            photo = msg['photo'][0]
+                            photo = ''
+                            if 'photo' in msg:
+                                photo = msg['photo'][-1]
+                            else :
+                                photo = msg['sticker']
                             rep = await session.get(f'https://api.telegram.org/bot{token}/getFile?file_id={photo["file_id"]}',proxy=http_proxy)
                             rep = await rep.read()
                             rep = json.loads(rep.decode())

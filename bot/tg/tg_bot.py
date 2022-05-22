@@ -75,6 +75,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                         continue
                 if 'text' in msg:
                     final_msg += f"{msg['text']}"
+                logger.info("final text: %s",final_msg)
                 await receive_queue.put(final_msg)
                 if len(res['result']) > 0:
                     last_id = res['result'][-1]['update_id'] + 1

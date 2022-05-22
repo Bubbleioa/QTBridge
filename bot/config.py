@@ -17,7 +17,7 @@ config = {
             'qq_group':'780703469',
             'bgm_id':[
                 '428864',
-                'kriaeth',
+                'glazygalaxy',
                 '488709',
                 'fffeiya',
                 '341379',
@@ -25,7 +25,8 @@ config = {
                 'ttsuxx',
                 'vishford',
                 'gfzum',
-                'limu_lingmeng'
+                'limu_lingmeng',
+                'lllz'
             ],
             'tg_blacklist': [
                 '123456789'

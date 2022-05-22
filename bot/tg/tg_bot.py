@@ -2,7 +2,6 @@ import os
 import json
 import asyncio
 import base64
-from io import BytesIO
 import aiohttp
 import urllib
 from tools.log import logger
@@ -66,7 +65,7 @@ def create_telegram_bridge(token,chat_id,blacklist=None,http_proxy=None,loop=Non
                             rep = await rep.read()
                             rep = json.loads(rep.decode())
                             rep = await session.get(f'https://api.telegram.org/file/bot{token}/{rep["result"]["file_path"]}',proxy=http_proxy)
-                            b64_str = base64.b64encode(BytesIO(rep.content).getvalue())
+                            b64_str = base64.b64encode(rep.content)
                             final_msg += f'[CQ:image,file={b64_str}]'
                             if 'caption' in msg:
                                 final_msg += msg['caption']

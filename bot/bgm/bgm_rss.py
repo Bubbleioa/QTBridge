@@ -13,16 +13,19 @@ def create_bgm_rss(user_id,receive_queue,interval=10,loop=None):
 
     async def update_rss():
         session = aiohttp.ClientSession()
-        res = await session.get(rss_url)
-        res = await res.text()
-        res = feedparser.parse(res)
-        content = res.entries
+        content = []
+        while len(content)==0:
+            res = await session.get(rss_url)
+            res = await res.text()
+            res = feedparser.parse(res)
+            content = res.entries
+            await asyncio.sleep(interval)
         while True:
             await asyncio.sleep(interval)
             res = await session.get(rss_url)
             res = await res.text()
             res = feedparser.parse(res)
-            if content[0]==res.entries[0]:
+            if len(res.entries)==0 or content[0]==res.entries[0]:
                 continue
             user_name = res['channel']['title'].strip('的时间胶囊')
             for item in res.entries:

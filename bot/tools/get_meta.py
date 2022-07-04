@@ -8,8 +8,8 @@ async def get_meta(text :str) -> list|None:
     urls = re.findall(pattern,text)
     if len(urls):
         session=aiohttp.ClientSession()
-        async with session.get(urls[0]) as response:
-            try:
+        try:
+            async with session.get(urls[0]) as response:
                 html = await response.text()
                 soup = BeautifulSoup(html,'html.parser')
                 title = soup.title
@@ -26,10 +26,9 @@ async def get_meta(text :str) -> list|None:
                     image[0]['content'] = base_url[0] + image[0]['content']
                 await session.close()
                 return [title.text,description[0]['content'],image[0]['content'],urls]
-            except:
-                await session.close()
-                logger.warn("faild resolve %s",text)
-                return None     
+        except:
+            logger.warn("faild resolve %s",text)
+            return None     
     else:
         return None
 
